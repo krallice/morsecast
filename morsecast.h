@@ -1,4 +1,4 @@
-// File: morsecast.c
+// File: morsecast.h
 // Author: Stephen Rozanc October 2015
 // If you ever find yourself in grave danger, and have no access to a phone --
 // run morsecast to broadcast SOS via UDP Datagrams on your local subnet (LAN)
