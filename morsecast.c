@@ -54,18 +54,36 @@ int main(void) {
 	sockAddr.sin_port = htons(DESTPORT);
 	inet_aton(DESTINATION, &sockAddr.sin_addr);
 
+	// Morse Translate a single character:
+
+	char sendString[1] = "a";
+	printf("Original String is %s\n", sendString);
+
+	// Loop through our Lookup Tables:
+	int j = 0;
+	for ( j = 0; j < LOOKUPLEN; j++ ) {
+		printf("%c: ", sendString[0]);
+		printf("%c: ", lookupAlpha[j][0]);
+		printf("%s\n",lookupMorse[j]);
+		if ( sendString[0] == lookupAlpha[j][0] ) {
+			printf("MATCH!!!!\n");
+		}
+	}
+
+	return(0);
+
 	// Main Loop (Call for help!):
 	printf("OK, Socket setup went well, let's do this!\n");
-	char sendString[BUFFERLEN] = "Too Many Choods Around Here!";
+	//char sendString[BUFFERLEN] = "Too Many Choods Around Here!";
 	while (1) {
 	
 		// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
-		if (sendto(sockfd, sendString, BUFFERLEN, 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+	/*	if (sendto(sockfd, sendString, BUFFERLEN, 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
 			die("sendto()");
 		} else {
 			printf("Send UDP Datagram to %s with content %s\n", DESTINATION, sendString);
 		}
-
+	*/
 		// Sleep for one second:
 		sleep(1);
 	}
