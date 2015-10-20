@@ -57,8 +57,8 @@ int main(void) {
 	// Morse Translate multiple characters:
 
 	// Get our string to encode & also generate it's length:
-//	char sendString[3] = "sos";
 	char sendString[10] = "emma rules";
+	char terminatingString[3] = "! ";
 	printf("\nEncoding String: %s\n", sendString);
 	int sendStringLen = strlen(sendString) - 1;
 
@@ -74,6 +74,9 @@ int main(void) {
 			// in order to codify our ascii --> morse representation:
 			if ( sendString[i] == lookupAlpha[j][0] ) {
 				encodedMessage[i] = j;
+			}
+			if ( j == LOOKUPLEN ) {
+				encodedMessage[i] = LOOKUPLEN + 1;
 			}
 		}
 	} 
@@ -99,6 +102,13 @@ int main(void) {
 			} else {
 				printf("Send UDP Datagram to %s with content %s\n", DESTINATION, lookupMorse[encodedMessage[i]]);
 			}
+		}
+		
+		// Send our terminatingString to notify listeners that broadcast is over and about to loop:
+		if (sendto(sockfd, terminatingString, strlen(terminatingString), 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+			die("sendto()");
+		} else {
+			printf("Send UDP Datagram to %s with content %s\n", DESTINATION, &terminatingString);
 		}
 		
 		// End of one cycle (Message Complete). Wait 3seconds, resend!

@@ -23,5 +23,5 @@
 char *lookupAlpha[LOOKUPLEN] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
 					"q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "	};
 
-char *lookupMorse[LOOKUPLEN] = { "x-", "-xxx", "-x-x", "-xx", "x", "xx-x", "--x", "xxxx", "xx", "x---", "-x-", "x-xx", "--", "-x", "---", "x--x",
-					"xx-x", "x-x", "xxx", "-", "xx-", "xxx-", "x--", "-xx-", "-x--", "--xx", " / " 	};
+char *lookupMorse[LOOKUPLEN] = { "x- ", "-xxx ", "-x-x ", "-xx ", "x ", "xx-x ", "--x ", "xxxx ", "xx ", "x--- ", "-x- ", "x-xx ", "-- ", "-x ", "--- ", "x--x ",
+					"xx-x ", "x-x ", "xxx ", "- ", "xx- ", "xxx- ", "x-- ", "-xx- ", "-x-- ", "--xx ", " / ",   	};
