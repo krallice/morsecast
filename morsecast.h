@@ -17,3 +17,11 @@
 #define DESTINATION "255.255.255.255"
 #define DESTPORT 7474
 #define BUFFERLEN 32
+
+// Our lookups for Alpha -> Morse Translation:
+#define LOOKUPLEN 26
+char *lookupAlpha[LOOKUPLEN] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+					"q", "r", "s", "t", "u", "v", "w", "x", "y", "z" 	};
+
+char *lookupMorse[LOOKUPLEN] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.",
+					"..-.", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." 	};
