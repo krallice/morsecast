@@ -35,7 +35,7 @@ int main(void) {
 	struct sockaddr_in sockAddr;
 	
 	// Create a socket filedescriptor for an INET/Datagram through UDP socket:
-	int sockfd, i, sockLen=sizeof(sockAddr);
+	int sockfd, sockLen=sizeof(sockAddr);
 	if ((sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
 		die("socket");
 	}
@@ -54,20 +54,33 @@ int main(void) {
 	sockAddr.sin_port = htons(DESTPORT);
 	inet_aton(DESTINATION, &sockAddr.sin_addr);
 
-	// Morse Translate a single character:
+	// Morse Translate multiple characters:
 
-	char sendString[1] = "a";
+	// Get our string to encode & also generate it's length:
+	char sendString[3] = "sos";
 	printf("Original String is %s\n", sendString);
+	int sendStringLen = strlen(sendString) - 1;
 
-	// Loop through our Lookup Tables:
-	int j = 0;
-	for ( j = 0; j < LOOKUPLEN; j++ ) {
-		printf("%c: ", sendString[0]);
-		printf("%c: ", lookupAlpha[j][0]);
-		printf("%s\n",lookupMorse[j]);
-		if ( sendString[0] == lookupAlpha[j][0] ) {
-			printf("MATCH!!!!\n");
+	// Foreach character in our sendString:
+	int i, j, encodedMessage[sendStringLen];
+	for ( i = 0; i < sendStringLen; i++ ) {
+		
+		// Loop through our Lookup Tables:
+		for ( j = 0; j < LOOKUPLEN; j++ ) {
+			
+			// If we have a match, populate our encodedMessage integer array
+			// encodedMessage holds the array elements of lookupMorse in order
+			// in order to codify our ascii --> morse representation:
+			if ( sendString[i] == lookupAlpha[j][0] ) {
+				printf("Match -- %c\n",lookupAlpha[j][0]);
+				encodedMessage[i] = j;
+			}
 		}
+	} 
+
+	printf("Encoded Message is:\n");
+	for ( i = 0; i < sendStringLen; i++ ) {
+		printf("%s ", lookupMorse[encodedMessage[i]]);
 	}
 
 	return(0);
