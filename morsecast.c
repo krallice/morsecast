@@ -4,18 +4,8 @@
 // run morsecast to broadcast SOS via UDP Datagrams on your local subnet (LAN)
 // Hopefully someone's listening !!
 
-// Standard Headers:
-#include <stdio.h> // Standard Printing/IO Functions
-#include <string.h> // String Manipulation Functions
-#include <stdlib.h> // Standard Functions including exit();
-
-// Network Includes:
-#include <arpa/inet.h>
-#include <sys/socket.h>
-
-#define DESTINATION "255.255.255.255"
-#define DESTPORT 7474
-#define BUFFERLEN 32
+// Our own header file:
+#include "morsecast.h"
 	
 // Our Bomb-out Function:
 void die(char *s) {
