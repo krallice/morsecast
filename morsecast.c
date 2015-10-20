@@ -74,45 +74,61 @@ int main(int argc, char *argv[]) {
 	char terminatingString[3] = "! ";
 	printf("\nEncoding String: %s\n", sendString);
 
-	// Foreach character in our sendString:
 	int i, j, encodedMessage[sendStringLen];
-	for ( i = 0; i < sendStringLen; i++ ) {
-		
-		// Loop through our Lookup Tables:
-		for ( j = 0; j < LOOKUPLEN; j++ ) {
-			
-			// If we have a match, populate our encodedMessage integer array
-			// encodedMessage holds the array elements of lookupMorse in order
-			// in order to codify our ascii --> morse representation:
-			if ( sendString[i] == lookupAlpha[j][0] ) {
-				encodedMessage[i] = j;
-			}
-			if ( j == LOOKUPLEN ) {
-				encodedMessage[i] = LOOKUPLEN + 1;
-			}
-		}
-	} 
 
-	// Decode for user output:
-	printf("Encoded Message is: ");
-	for ( i = 0; i < sendStringLen; i++ ) {
-		printf("%s ", lookupMorse[encodedMessage[i]]);
+	if ( TOGGLEMORSE == 1 ) {
+		// Foreach character in our sendString:
+		for ( i = 0; i < sendStringLen; i++ ) {
+			
+			// Loop through our Lookup Tables:
+			for ( j = 0; j < LOOKUPLEN; j++ ) {
+				
+				// If we have a match, populate our encodedMessage integer array
+				// encodedMessage holds the array elements of lookupMorse in order
+				// in order to codify our ascii --> morse representation:
+				if ( sendString[i] == lookupAlpha[j][0] ) {
+					encodedMessage[i] = j;
+				}
+				if ( j == LOOKUPLEN ) {
+					encodedMessage[i] = LOOKUPLEN + 1;
+				}
+			}
+		} 
+
+		// Decode for user output:
+		printf("Encoded Message is: ");
+		for ( i = 0; i < sendStringLen; i++ ) {
+			printf("%s ", lookupMorse[encodedMessage[i]]);
+		}
+		printf("\n\n");
 	}
-	printf("\n\n");
 
 	// Main Loop (Call for help!):
 	printf("OK, Socket setup went well, let's do this!\n\n");
 	while (1) {
-
-		// For each of our sendString Characters:	
-		for ( i = 0; i < sendStringLen; i++ ) {
+	
+		// If morsecode mode is enabled:
+		if ( TOGGLEMORSE == 1 ) {
 			
-			// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
-			// Send our Morse Character:
-			if (sendto(sockfd, lookupMorse[encodedMessage[i]], strlen(lookupMorse[encodedMessage[i]]), 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+			// For each of our sendString Characters:	
+			for ( i = 0; i < sendStringLen; i++ ) {
+				
+				// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
+				// Send our Morse Character:
+				if (sendto(sockfd, lookupMorse[encodedMessage[i]], strlen(lookupMorse[encodedMessage[i]]), 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+					die("sendto()");
+				} else {
+					printf("Send UDP Datagram to %s with content %s\n", DESTINATION, lookupMorse[encodedMessage[i]]);
+				}
+			}
+			
+		// Else:
+		} else {
+
+			if (sendto(sockfd, sendString, sendStringLen, 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
 				die("sendto()");
 			} else {
-				printf("Send UDP Datagram to %s with content %s\n", DESTINATION, lookupMorse[encodedMessage[i]]);
+				printf("Send UDP Datagram to %s with content %s\n", DESTINATION, sendString);
 			}
 		}
 		
@@ -122,7 +138,7 @@ int main(int argc, char *argv[]) {
 		} else {
 			printf("Send UDP Datagram to %s with content %s\n", DESTINATION, &terminatingString);
 		}
-		
+
 		// End of one cycle (Message Complete). Wait 3seconds, resend!
 		printf("End of Message, Waiting to Resend\n\n");
 		sleep(3);

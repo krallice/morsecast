@@ -19,6 +19,10 @@
 #define BUFFERLEN 32
 #define MSGLEN 48
 
+// TOGGLEMORSE = 1 -> Encode String into Morse Code
+// TOGGLEMORSE = 0 -> Send PlainText:
+#define TOGGLEMORSE 1
+
 // Our lookups for Alpha -> Morse Translation:
 #define LOOKUPLEN 27
 char *lookupAlpha[LOOKUPLEN] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
