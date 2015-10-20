@@ -17,6 +17,7 @@
 #define DESTINATION "255.255.255.255"
 #define DESTPORT 7474
 #define BUFFERLEN 32
+#define MSGLEN 48
 
 // Our lookups for Alpha -> Morse Translation:
 #define LOOKUPLEN 27

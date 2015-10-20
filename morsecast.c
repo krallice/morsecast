@@ -13,7 +13,7 @@ void die(char *s) {
 	exit(1);
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
 
 	// Useless preamble:
 	printf("In trouble?? OK, Let's get you some help!\n");
@@ -57,10 +57,22 @@ int main(void) {
 	// Morse Translate multiple characters:
 
 	// Get our string to encode & also generate it's length:
-	char sendString[10] = "emma rules";
+	//char sendString[10] = "emma rules";
+
+	char sendString[MSGLEN];
+	int sendStringLen;
+
+	if ( argc < 2 ) {
+		printf("Please enter a lowercase message (spaces allowed): ");
+		fgets(sendString, MSGLEN, stdin);
+		sendStringLen = strlen(sendString) - 1;
+	} else {
+		memcpy(sendString,argv[1],strlen(argv[1])+1);
+		sendStringLen = strlen(sendString);
+	}
+
 	char terminatingString[3] = "! ";
 	printf("\nEncoding String: %s\n", sendString);
-	int sendStringLen = strlen(sendString) - 1;
 
 	// Foreach character in our sendString:
 	int i, j, encodedMessage[sendStringLen];
