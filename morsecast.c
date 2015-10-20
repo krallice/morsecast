@@ -57,8 +57,9 @@ int main(void) {
 	// Morse Translate multiple characters:
 
 	// Get our string to encode & also generate it's length:
-	char sendString[3] = "sos";
-	printf("Original String is %s\n", sendString);
+//	char sendString[3] = "sos";
+	char sendString[10] = "emma rules";
+	printf("\nEncoding String: %s\n", sendString);
 	int sendStringLen = strlen(sendString) - 1;
 
 	// Foreach character in our sendString:
@@ -72,33 +73,37 @@ int main(void) {
 			// encodedMessage holds the array elements of lookupMorse in order
 			// in order to codify our ascii --> morse representation:
 			if ( sendString[i] == lookupAlpha[j][0] ) {
-				printf("Match -- %c\n",lookupAlpha[j][0]);
 				encodedMessage[i] = j;
 			}
 		}
 	} 
 
-	printf("Encoded Message is:\n");
+	// Decode for user output:
+	printf("Encoded Message is: ");
 	for ( i = 0; i < sendStringLen; i++ ) {
 		printf("%s ", lookupMorse[encodedMessage[i]]);
 	}
-
-	return(0);
+	printf("\n\n");
 
 	// Main Loop (Call for help!):
-	printf("OK, Socket setup went well, let's do this!\n");
-	//char sendString[BUFFERLEN] = "Too Many Choods Around Here!";
+	printf("OK, Socket setup went well, let's do this!\n\n");
 	while (1) {
-	
-		// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
-	/*	if (sendto(sockfd, sendString, BUFFERLEN, 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
-			die("sendto()");
-		} else {
-			printf("Send UDP Datagram to %s with content %s\n", DESTINATION, sendString);
+
+		// For each of our sendString Characters:	
+		for ( i = 0; i < sendStringLen; i++ ) {
+			
+			// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
+			// Send our Morse Character:
+			if (sendto(sockfd, lookupMorse[encodedMessage[i]], strlen(lookupMorse[encodedMessage[i]]), 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+				die("sendto()");
+			} else {
+				printf("Send UDP Datagram to %s with content %s\n", DESTINATION, lookupMorse[encodedMessage[i]]);
+			}
 		}
-	*/
-		// Sleep for one second:
-		sleep(1);
+		
+		// End of one cycle (Message Complete). Wait 3seconds, resend!
+		printf("End of Message, Waiting to Resend\n\n");
+		sleep(3);
 	}
 	
 	// Code should never reach here; but for good practice:
