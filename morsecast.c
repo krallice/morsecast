@@ -1,7 +1,7 @@
 // File: morsecast.c
 // Author: Stephen Rozanc October 2015
-// If you ever find yourself in grave danger at home, and have no acess to a phone
-// Run morsecast to broadcast SOS via UDP Datagrams via your local subnet (LAN)
+// If you ever find yourself in grave danger, and have no access to a phone --
+// run morsecast to broadcast SOS via UDP Datagrams on your local subnet (LAN)
 // Hopefully someone's listening !!
 
 // Standard Headers:
