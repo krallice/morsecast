@@ -15,6 +15,7 @@
 
 #define DESTINATION "255.255.255.255"
 #define DESTPORT 7474
+#define BUFFERLEN 32
 	
 // Our Bomb-out Function:
 void die(char *s) {
@@ -57,4 +58,29 @@ int main(void) {
 	
 	// Zero out the socket:
 	memset((char *) &sockAddr, 0, sockLen);
+
+	// INET/IP Socket on DESTPORT to DESTINATION:
+	sockAddr.sin_family = AF_INET;
+	sockAddr.sin_port = htons(DESTPORT);
+	inet_aton(DESTINATION, &sockAddr.sin_addr);
+
+	// Main Loop (Call for help!):
+	printf("OK, Socket setup went well, let's do this!\n");
+	char sendString[BUFFERLEN] = "Too Many Choods Around Here!";
+	while (1) {
+	
+		// Use our socket filedescriptor, Send BUFFERLEN worth of sendString through to sockAddr:
+		if (sendto(sockfd, sendString, BUFFERLEN, 0, (struct sockaddr* )&sockAddr, sockLen) == -1) {
+			die("sendto()");
+		} else {
+			printf("Send UDP Datagram to %s with content %s\n", DESTINATION, sendString);
+		}
+
+		// Sleep for one second:
+		sleep(1);
+	}
+	
+	// Code should never reach here; but for good practice:
+	close(sockfd);
+	return 0;
 }
